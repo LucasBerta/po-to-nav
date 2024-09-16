@@ -16,20 +16,23 @@ function PdfToNav() {
     pdfToText(file).then(text => {
       let excelString = '';
       const navItemsArr = convertToNAV(text);
-      navItemsArr.forEach(item => {
+      navItemsArr.forEach(navItem => {
         const excelColumnSeparator = '	';
         const excelRowSeparator = `
 `;
 
-        excelString += item['Type'] + excelColumnSeparator;
-        excelString += item['No.'] + excelColumnSeparator;
-        excelString += item['Item No. 2'] + excelColumnSeparator;
-        excelString += item['Description'] + excelColumnSeparator;
-        excelString += item['Location Code'] + excelColumnSeparator;
-        excelString += item['Quantity'] + excelColumnSeparator;
+        excelString += navItem['Type'] + excelColumnSeparator;
+        excelString += navItem['No.'] + excelColumnSeparator;
+        excelString += navItem['No. 2'] + excelColumnSeparator;
+        excelString += navItem['Description'] + excelColumnSeparator;
+        excelString += navItem['Location Code'] + excelColumnSeparator;
+        excelString += '' + excelColumnSeparator; // Bin Code
+        excelString += '' + excelColumnSeparator; // Purchasing Code
+        excelString += '' + excelColumnSeparator; // Office Comment
+        excelString += navItem['Quantity'] + excelColumnSeparator;
 
-        if (itemNoHasPrice(item['No.'])) {
-          excelString += item['Line Amount Excl. VAT'];
+        if (itemNoHasPrice(navItem['No.'])) {
+          excelString += navItem['Line Amount Excl. VAT'];
         }
         excelString += excelRowSeparator;
       });
