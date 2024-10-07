@@ -1,12 +1,16 @@
-import pdfToText from 'react-pdftotext';
 import './PdfToNav.scss';
+import { useState } from 'react';
+import pdfToText from 'react-pdftotext';
+import { Button, Snackbar } from '@mui/material';
+import { Check } from '@mui/icons-material';
+
 import { getChadwicksIndexes } from '../core/merchantsConfig/Chadwicks_config';
 import { findNavItemByItemNo, itemNoHasPrice } from '../core/NavItems';
-import { useState } from 'react';
 
 function PdfToNav() {
   const [pdfDescription, setPdfDescription] = useState();
   const [navFormatItems, setNavFormatitems] = useState();
+  const [showOnCopyFeedback, setShowOnCopyFeedback] = useState(false);
 
   function onUpload(e) {
     const file = e.target.files[0];
@@ -16,24 +20,36 @@ function PdfToNav() {
     pdfToText(file).then(text => {
       let excelString = '';
       const navItemsArr = convertToNAV(text);
+      const navHeaderIndexes = JSON.parse(localStorage.getItem('NavHeaderIndexes') || '{}');
+
       navItemsArr.forEach(navItem => {
         const excelColumnSeparator = '	';
         const excelRowSeparator = `
 `;
 
-        excelString += navItem['Type'] + excelColumnSeparator;
-        excelString += navItem['No.'] + excelColumnSeparator;
-        excelString += navItem['No. 2'] + excelColumnSeparator;
-        excelString += navItem['Description'] + excelColumnSeparator;
-        excelString += navItem['Location Code'] + excelColumnSeparator;
-        excelString += '' + excelColumnSeparator; // Bin Code
-        excelString += '' + excelColumnSeparator; // Purchasing Code
-        excelString += '' + excelColumnSeparator; // Office Comment
-        excelString += navItem['Quantity'] + excelColumnSeparator;
+        Object.keys(navHeaderIndexes).forEach(key => {
+          if (key !== 'Line Amount Excl. VAT') {
+            excelString += (navItem[key] || '') + excelColumnSeparator;
+          }
 
-        if (itemNoHasPrice(navItem['No.'])) {
-          excelString += navItem['Line Amount Excl. VAT'];
-        }
+          if (key === 'Line Amount Excl. VAT' && itemNoHasPrice(navItem['No.'])) {
+            excelString += navItem[key] || '';
+          }
+
+          // excelString += navItem['Type'] + excelColumnSeparator;
+          // excelString += navItem['No.'] + excelColumnSeparator;
+          // excelString += navItem['No. 2'] + excelColumnSeparator;
+          // excelString += navItem['Description'] + excelColumnSeparator;
+          // excelString += navItem['Location Code'] + excelColumnSeparator;
+          // excelString += '' + excelColumnSeparator; // Bin Code
+          // excelString += '' + excelColumnSeparator; // Purchasing Code
+          // excelString += '' + excelColumnSeparator; // Office Comment
+          // excelString += navItem['Quantity'] + excelColumnSeparator;
+
+          // if (itemNoHasPrice(navItem['No.'])) {
+          //   excelString += navItem['Line Amount Excl. VAT'];
+          // }
+        });
         excelString += excelRowSeparator;
       });
 
@@ -65,6 +81,7 @@ function PdfToNav() {
     navigator.clipboard.writeText(navFormatItems);
     setNavFormatitems();
     setPdfDescription('');
+    setShowOnCopyFeedback(true);
   }
 
   function parseRows(text = '') {
@@ -101,11 +118,26 @@ function PdfToNav() {
 
   return (
     <>
-      <input className='pdfUpload' type='file' accept='application/pdf' onChange={onUpload} />
-      <button onClick={copyNavItems} disabled={!navFormatItems}>
-        Copy NAV Items
-      </button>
-      <div>{pdfDescription}</div>
+      <div className='pdfUploadView'>
+        <div className='pdfUploadContainer'>
+          <input id='pdfUpload' type='file' accept='application/pdf' onChange={onUpload} />
+          <label id='pdfUploadLabel' htmlFor='pdfUpload'>
+            {pdfDescription || 'Select or drop a file'}
+          </label>
+        </div>
+        <Button variant='outlined' onClick={copyNavItems} disabled={!navFormatItems}>
+          Copy NAV Items
+        </Button>
+      </div>
+      <Snackbar
+        open={showOnCopyFeedback}
+        autoHideDuration={3000}
+        onClose={() => setShowOnCopyFeedback(false)}
+        message='NAV items copied to your clipboard!'
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        className='snackbar'
+        action={<Check color='primary' />}
+      />
     </>
   );
 }

@@ -1,0 +1,19 @@
+// Variables
+$primaryColor: #79b243;
+$onPrimaryColor: #fafafa;
+$defaultMargin: 15px;
+
+// Util
+.flexRowCenter {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.flexColumnCenter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}

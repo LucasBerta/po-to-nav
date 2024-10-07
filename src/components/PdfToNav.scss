@@ -1,3 +1,38 @@
-.pdfUpload {
-  height: 60px;
+@use "sass:color";
+@import "../core/styles.scss";
+
+$dragDropContainerWidth: 200px;
+$dragDropContainerHeight: 100px;
+
+.pdfUploadView {
+  @extend .flexColumnCenter;
+  gap: $defaultMargin;
+}
+
+.pdfUploadContainer {
+  @extend .flexRowCenter;
+  width: $dragDropContainerWidth;
+  height: $dragDropContainerHeight;
+
+  border-width: 2px;
+  border-color: $primaryColor;
+  border-style: dashed;
+}
+
+#pdfUpload {
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+
+  &::file-selector-button {
+    visibility: hidden;
+  }
+}
+
+#pdfUploadLabel {
+  @extend .flexRowCenter;
+  position: absolute;
+  width: $dragDropContainerWidth;
+  height: $dragDropContainerHeight;
+  z-index: -1;
 }

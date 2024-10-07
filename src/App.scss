@@ -1,3 +1,29 @@
+@import "./core/styles.scss";
+
 .App {
-  text-align: center;
+  @extend .flexColumnCenter;
+}
+
+// Styles
+#topbar {
+  @extend .flexRowCenter;
+  justify-content: space-around;
+
+  width: 100%;
+  background-color: $primaryColor;
+  padding: $defaultMargin 0;
+  gap: 100px;
+
+  * {
+    color: $onPrimaryColor;
+  }
+
+  .topbarLeft,
+  .topbarRight {
+    width: 185px;
+  }
+}
+
+#title {
+  margin: $defaultMargin;
 }

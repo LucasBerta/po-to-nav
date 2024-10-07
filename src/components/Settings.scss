@@ -1,0 +1,26 @@
+@import "../core/styles.scss";
+
+#settingsButton {
+  position: fixed;
+  bottom: $defaultMargin;
+  right: $defaultMargin;
+}
+
+#navLayoutInput {
+}
+
+.settingsModal {
+  align-self: center;
+  justify-self: center;
+  width: 70vw;
+  max-height: 90vh;
+}
+
+.settingsModalContainer {
+  @extend .flexColumnCenter;
+  gap: $defaultMargin;
+
+  padding: $defaultMargin;
+  background-color: #fafafa;
+  border-radius: 10px;
+}
