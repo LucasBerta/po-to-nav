@@ -83,7 +83,7 @@ function PdfToNav() {
         const splitItem = item.split(/ Suppliers Item Code - /); // To extract the item no
         splitItems.push(splitItem[0]);
         splitItems.push(splitItem[1].split(' ')[0]); // To remove the Chadwicks item code from the end of string
-      } else if (item !== 'EACH' && item !== 'BOX' && item !== 'PALLET' && item !== 'PACK') {
+      } else if (item !== 'EACH' && item !== 'BOX' && item !== 'PALLET' && item !== 'PACK' && item !== 'LENGTH') {
         // To remove the EACH|BOX|PALLET string which is irrelevant
         splitItems.push(item);
       }
