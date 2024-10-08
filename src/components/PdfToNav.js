@@ -35,20 +35,6 @@ function PdfToNav() {
           if (key === 'Line Amount Excl. VAT' && itemNoHasPrice(navItem['No.'])) {
             excelString += navItem[key] || '';
           }
-
-          // excelString += navItem['Type'] + excelColumnSeparator;
-          // excelString += navItem['No.'] + excelColumnSeparator;
-          // excelString += navItem['No. 2'] + excelColumnSeparator;
-          // excelString += navItem['Description'] + excelColumnSeparator;
-          // excelString += navItem['Location Code'] + excelColumnSeparator;
-          // excelString += '' + excelColumnSeparator; // Bin Code
-          // excelString += '' + excelColumnSeparator; // Purchasing Code
-          // excelString += '' + excelColumnSeparator; // Office Comment
-          // excelString += navItem['Quantity'] + excelColumnSeparator;
-
-          // if (itemNoHasPrice(navItem['No.'])) {
-          //   excelString += navItem['Line Amount Excl. VAT'];
-          // }
         });
         excelString += excelRowSeparator;
       });
@@ -97,7 +83,7 @@ function PdfToNav() {
         const splitItem = item.split(/ Suppliers Item Code - /); // To extract the item no
         splitItems.push(splitItem[0]);
         splitItems.push(splitItem[1].split(' ')[0]); // To remove the Chadwicks item code from the end of string
-      } else if (item !== 'EACH' && item !== 'BOX' && item !== 'PALLET') {
+      } else if (item !== 'EACH' && item !== 'BOX' && item !== 'PALLET' && item !== 'PACK') {
         // To remove the EACH|BOX|PALLET string which is irrelevant
         splitItems.push(item);
       }
