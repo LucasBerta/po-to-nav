@@ -35,6 +35,7 @@ function getHeaderIndexes(bomLines) {
     'Location Code': findFieldIndex(header, 'Location Code'),
     'Bin Code': findFieldIndex(header, 'Bin Code'),
     'Purchasing Code': findFieldIndex(header, 'Purchasing Code'),
+    'Variant Code': findFieldIndex(header, 'Variant Code'),
     'Office Comment': findFieldIndex(header, 'Office Comment'),
     Quantity: findFieldIndex(header, 'Quantity'),
     'Line Amount Excl. VAT': findFieldIndex(header, 'Line Amount Excl. VAT'),
